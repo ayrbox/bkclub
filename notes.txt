@@ -1,0 +1,40 @@
+1. External Contract Referencing
+Cause replacing the address of external contract that the contract is accepting.
+so Need to make sure the the contract refering is instanciated properly. 
+
+2. Short Address/Parameter Attack
+Possible to send parameter shorter, that cause unexpected value when decoded. EVM addes zeros.
+- Value should be checked
+
+3. Unchecked CALL Return Values
+Solidity send and call returns true/false for ether transfer. 
+- Required to check return value or whenever possible use transfer
+
+4. Race Conditions/Front Running
+users race code execution to obtain unexpected states
+An attacker can watch the transaction pool for transactions that may contain solutions to problems, and modify or revoke the solver’s permissions or change state in a contract detrimentally to the solver. The attacker can then get the data from this transaction and create a transaction of their own with a higher gasPrice so their transaction is included in a block before the original.
+- One method is to place an upper bound on the gasPrice.
+
+5. Denial of Service (DoS)
+Looping through externally manipulated mappings or arrays
+Owner operations
+- contracts should not loop through data structures
+- privileged user was required to change the state of the contract. In such examples a failsafe can be used in the event that the owner becomes incapacitated
+6. Block Timestamp Manipulation
+miners can adjust the timestamp should they need to
+-  Block timestamps should not be used for entropy or generating random numbers
+
+7. Constructors with Care
+Special function but constructor name isn’t changed too it becomes a normal, callable functio
+- addressed in version 0.4.22 of the Solidity compiler
+
+8. Uninitialized Storage Pointers
+- vulnerable contracts by inappropriately intializing variables.0
+
+9. Tx.Origin Authentication
+
+global variable, tx.origin
+
+
+
+

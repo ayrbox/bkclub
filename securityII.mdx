@@ -1,0 +1,433 @@
+import { Head, Image, Notes, Appear } from 'mdx-deck'
+
+# Smart Contract Security
+---
+# Last week
+---
+### Security Best Practise
+<ul>
+  <Appear>
+    <li>Minimalism/simplicity</li>
+    <li>Code reuse</li>
+    <li>Code quality</li>
+    <li>Readability/auditability</li>
+    <li>Test coverage</li>
+  </Appear>
+</ul>
+---
+
+# Security Risks and Antipatterns
+<ul>
+  <Appear>
+    <li>Reentrancy</li>
+    <li>Arithmetic Over/Underflows</li>
+    <li>Unexpected Ether</li>
+    <li>DELEGATECALL</li>
+    <li>Default Visibility</li>
+    <li>Entropy Illusion</li>
+  </Appear>
+</ul>
+
+---
+# Continue
+<ul>
+  <Appear>
+    <li>External Contract Referencing</li>
+    <li>Short Address/Parameter Attack</li>
+    <li>Race Conditions/Front Running</li>
+    <li>Denial of Service (DoS)</li>
+    <li>Block Timestamp Manipulation</li>
+    <li>Constructors with Care</li>
+    <li>Uninitialized Storage Pointers</li>
+    <li>Floating Point and Precision</li>
+    <li>Tx.Origin Authentication</li>
+  </Appear>
+</ul>
+---
+
+# External Contract Referencing
+Ethereum allow to refer to external contract and send exteranl message calls.
+Meaning contracts can hide malicious code.
+---
+# Example - ROT13 
+ROT-13
+Rotate by 13
+---
+```
+import "Rot13Encryption.sol";
+
+// encrypt your top-secret info
+contract EncryptionContract {
+    // library for encryption
+    Rot13Encryption encryptionLibrary;
+
+    // constructor - initialize the library
+    constructor(Rot13Encryption _encryptionLibrary) {
+        encryptionLibrary = _encryptionLibrary;
+    }
+
+    function encryptPrivateData(string privateInfo) {
+        // potentially do some operations here
+        encryptionLibrary.rot13Encrypt(privateInfo);
+     }
+ }
+```
+--- 
+Usage
+```
+contract Rot26Encryption {
+
+   event Result(string convertedString);
+
+    // rot13-encrypt a string
+    function rot13Encrypt (string text) public {
+        uint256 length = bytes(text).length;
+        for (var i = 0; i < length; i++) {
+            byte char = bytes(text)[i];
+            // inline assembly to modify the string
+            assembly {
+                // get the first byte
+                char := byte(0,char)
+                // if the character is in [n,z], i.e. wrapping
+                if and(gt(char,0x6D), lt(char,0x7B))
+                // subtract from the ASCII number 'a',
+                // the difference between character <char> and 'z'
+                { char:= sub(0x60, sub(0x7A,char)) }
+                // ignore spaces
+                if iszero(eq(char, 0x20))
+                // add 26 to char!
+                {mstore8(add(add(text,0x20), mul(i,1)), add(char,26))}
+            }
+        }
+        emit Result(text);
+    }
+
+    // rot13-decrypt a string
+    function rot13Decrypt (string text) public {
+        uint256 length = bytes(text).length;
+        for (var i = 0; i < length; i++) {
+            byte char = bytes(text)[i];
+            assembly {
+                char := byte(0,char)
+                if and(gt(char,0x60), lt(char,0x6E))
+                { char:= add(0x7B, sub(char,0x61)) }
+                if iszero(eq(char, 0x20))
+                {mstore8(add(add(text,0x20), mul(i,1)), sub(char,26))}
+            }
+        }
+        emit Result(text);
+    }
+}
+```
+# Prevention
+```
+constructor() {
+    encryptionLibrary = new Rot13Encryption();
+}
+```
+---
+# Real World Example
+## Reentrancy Honey Pot
+---
+
+
+```
+pragma solidity ^0.4.19;
+
+contract Private_Bank
+{
+    mapping (address => uint) public balances;
+    uint public MinDeposit = 1 ether;
+    Log TransferLog;
+
+    function Private_Bank(address _log)
+    {
+        TransferLog = Log(_log);
+    }
+
+    function Deposit()
+    public
+    payable
+    {
+        if(msg.value >= MinDeposit)
+        {
+            balances[msg.sender]+=msg.value;
+            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
+        }
+    }
+
+    function CashOut(uint _am)
+    {
+        if(_am<=balances[msg.sender])
+        {
+            if(msg.sender.call.value(_am)())
+            {
+                balances[msg.sender]-=_am;
+                TransferLog.AddMessage(msg.sender,_am,"CashOut");
+            }
+        }
+    }
+
+    function() public payable{}
+
+}
+
+contract Log
+{
+    struct Message
+    {
+        address Sender;
+        string  Data;
+        uint Val;
+        uint  Time;
+    }
+
+    Message[] public History;
+    Message LastMsg;
+
+    function AddMessage(address _adr,uint _val,string _data)
+    public
+    {
+        LastMsg.Sender = _adr;
+        LastMsg.Time = now;
+        LastMsg.Val = _val;
+        LastMsg.Data = _data;
+        History.push(LastMsg);
+    }
+}
+```
+
+# Short Address/Parameter Attack
+
+This attack is not performed on Solidity contracts themselves, but on third-party applications that may interact with them. This section is added for completeness and to give the reader an awareness of how parameters can be manipulated in contracts.
+---
+
+## The Vulnerability
+---
+## Preventative Techniques
+---
+# Unchecked CALL Return Values
+---
+## Vulnerability
+---
+## Prevention
+```
+contract Lotto {
+
+    bool public payedOut = false;
+    address public winner;
+    uint public winAmount;
+
+    // ... extra functionality here
+
+    function sendToWinner() public {
+        require(!payedOut);
+        winner.send(winAmount);
+        payedOut = true;
+    }
+
+    function withdrawLeftOver() public {
+        require(payedOut);
+        msg.sender.send(this.balance);
+    }
+}
+```
+---
+## Preventative Techniques
+---
+## Real-World Example: Etherpot and King of the Ether
+---
+# Race Conditions/Front Running
+---
+## The Vulnerability
+```
+contract FindThisHash {
+    bytes32 constant public hash =
+      0xb5b5b97fafd9855eec9b41f74dfb6c38f5951141f9a3ecd7f44d5479b630ee0a;
+
+    constructor() public payable {} // load with ether
+
+    function solve(string solution) public {
+        // If you can find the pre-image of the hash, receive 1000 ether
+        require(hash == sha3(solution));
+        msg.sender.transfer(1000 ether);
+    }
+}
+```
+---
+## Preventative Techniques
+---
+## Real-World Examples: ERC20 and Bancor
+---
+# Denial of Service (DoS)
+---
+## Vulnerability
+---
+```
+contract DistributeTokens {
+    address public owner; // gets set somewhere
+    address[] investors; // array of investors
+    uint[] investorTokens; // the amount of tokens each investor gets
+
+    // ... extra functionality, including transfertoken()
+
+    function invest() public payable {
+        investors.push(msg.sender);
+        investorTokens.push(msg.value * 5); // 5 times the wei sent
+        }
+
+    function distribute() public {
+        require(msg.sender == owner); // only owner
+        for(uint i = 0; i < investors.length; i++) {
+            // here transferToken(to,amount) transfers "amount" of
+            // tokens to the address "to"
+            transferToken(investors[i],investorTokens[i]);
+        }
+    }
+}
+```
+---
+## Prevention
+--- 
+## Real-World Examples: GovernMental
+GovernMental was an old Ponzi scheme that accumulated quite a large amount of ether (1,100 ether, at one point). Unfortunately, it was susceptible to the DoS vulnerabilities mentioned in this section.
+---
+# Block Timestamp Manipulation
+Block timestamps have historically been used for a variety of applications, such as entropy for random numbers (see the Entropy Illusion for further details), locking funds for periods of time, and various state-changing conditional statements that are time-dependent. Miners have the ability to adjust timestamps slightly, which can prove to be dangerous if block timestamps are used incorrectly in smart contracts.
+---
+## Vulnerability
+```
+contract Roulette {
+    uint public pastBlockTime; // forces one bet per block
+
+    constructor() public payable {} // initially fund contract
+
+    // fallback function used to make a bet
+    function () public payable {
+        require(msg.value == 10 ether); // must send 10 ether to play
+        require(now != pastBlockTime); // only 1 transaction per block
+        pastBlockTime = now;
+        if(now % 15 == 0) { // winner
+            msg.sender.transfer(this.balance);
+        }
+    }
+}
+```
+---
+## Prevention
+Block timestamps should not be used for entropy or generating random numbers—i.e., they should not be the deciding factor (either directly or through some derivation) for winning a game or changing an important state.
+---
+## Real-World Example: GovernMental
+---
+
+# Constructors with Care
+Constructors are special functions that often perform critical, privileged tasks when initializing contracts. Before Solidity v0.4.22, constructors were defined as functions that had the same name as the contract that contained them. In such cases, when the contract name is changed in development, if the constructor name isn’t changed too it becomes a normal, callable function. As you can imagine, this can lead (and has) to some interesting contract hacks.
+---
+## Vulnerability
+
+```
+contract OwnerWallet {
+    address public owner;
+
+    // constructor
+    function ownerWallet(address _owner) public {
+        owner = _owner;
+    }
+
+    // Fallback. Collect ether.
+    function () payable {}
+
+    function withdraw() public {
+        require(msg.sender == owner);
+        msg.sender.transfer(this.balance);
+    }
+}
+```
+---
+## Preventative Techniques
+This issue has been addressed in version 0.4.22 of the Solidity compiler. This version introduced a constructor keyword that specifies the constructor, rather than requiring the name of the function to match the contract name. Using this keyword to specify constructors is recommended to prevent naming issues.
+---
+### Real-World Example: Rubixi
+
+---
+# Uninitialized Storage Pointers
+
+---
+## Vulnerability
+```
+// A locked name registrar
+contract NameRegistrar {
+
+    bool public unlocked = false;  // registrar locked, no name updates
+
+    struct NameRecord { // map hashes to addresses
+        bytes32 name;
+        address mappedAddress;
+    }
+
+    // records who registered names
+    mapping(address => NameRecord) public registeredNameRecord;
+    // resolves hashes to addresses
+    mapping(bytes32 => address) public resolve;
+
+    function register(bytes32 _name, address _mappedAddress) public {
+        // set up the new NameRecord
+        NameRecord newRecord;
+        newRecord.name = _name;
+        newRecord.mappedAddress = _mappedAddress;
+
+        resolve[_name] = _mappedAddress;
+        registeredNameRecord[msg.sender] = newRecord;
+
+        require(unlocked); // only allow registrations if contract is unlocked
+    }
+}
+```
+---
+## Prevention
+---
+## Real-World Examples: OpenAddressLottery and CryptoRoulette Honey Pots
+---
+# Floating Point and Precision
+---
+## Vulnerability
+---
+## Prevention
+---
+## Real-World Example: Ethstick
+---
+# Tx.Origin Authentication
+---
+## Vulnerability
+---
+## Pervention
+---
+# Contract Libraries
+- deployed on-chain as callable libraries and off-chain as code template libraries
+- well-established existing on-platform libraries comes with many advantages
+-- latest upgrades
+-- saves you money
+-- benefits the Ethereum ecosystem by reducing the total number of live contracts in Ethereum
+---
+# Most common contract libraries
+- OpenZeppelin suite (ERC20 and ERC721 token)
+- many flavors of crowdsale models, to simple behaviors commonly found in contracts, such as Ownable, Pausable, or LimitBalance
+---
+# ethpm
+aims to organize the various resources that are developing in the ecosystem by providing a package management system
+---
+
+
+# Conclusion
+---
+following best practices in your smart contract design and code writing
+---
+maximize reuse of trusted code
+"Don’t roll your own crypto."
+
+
+
+
+
+
+
