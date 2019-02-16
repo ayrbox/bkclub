@@ -1,3 +1,15 @@
+import { Head, Image, Notes, Appear } from 'mdx-deck'
+export { default as theme } from './theme.js'
+
+<Image src='https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20' />
+---
+Prop | Type | Description
+---|---|---
+`width` | number, string, or array | sets element width
+`color` | string | sets foreground color
+`bg` | string | sets background color
+---
+
 # Two type of accounts
 
 1. Externally Owned Account
@@ -25,7 +37,7 @@
 # Smart Contract
 
 Coined by Nick Szabo in 1990
-
+```
 “a set of promises, specified in digital form, including protocols within which the parties perform on the other promises.”
 
 After introduction of Bitcoin in 2019 the concept evolved.
@@ -436,7 +448,7 @@ In addition to these data types, Solidity also offers a variety of value literal
 ---
 
 
-##### Built-in functions
+### Built-in functions
 
 - addmod, mulmod - For example, addmod(x,y,k) calculates (x + y) % k.
 - keccak256, sha256, sha3, ripemd160
