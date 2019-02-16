@@ -5,6 +5,7 @@ import Splash from './splash'
 import SideTitle from './sideTitle'
 import WhiteSlate from './WhiteSlate'
 import Columns from './Columns'
+import WhiteSplit from './WhiteSplit'
 
 export default Splash
 
@@ -72,4 +73,115 @@ Smart contracts that can be made to release ether to arbitrary addresses.
 E.g. Bounty contracts that can be called by anybody and drained of their ether.
 
 </div>
+---
+export default WhiteSplit
 
+# Comparision to Solidity
+<div></div>
+
+### Remove unsecure features
+<div>
+
+Rather than adding features, Vyper removes all high risk features that an imperative language like solidity has, in order to provide a secure and risk free coding environment.
+
+Most of them were covered in the previous chapter, some of them weren’t.
+
+</div>
+
+<div />
+
+- Modifiers
+- Class inheritance
+- Inline assembly
+- Function overloading
+- Variable typecasting
+- Preconditions and Postconditions
+---
+export default WhiteSplit
+
+# Comparision to Solidity
+<div></div>
+
+### Decorators 
+<div>
+
+Four built-in explicit decorators:
+
+- @private
+- @public
+- @constant
+- @payable
+
+</div>
+
+<div />
+
+> Can it be compared to Solidity’s 
+> [visibility keywords](https://github.com/ethereumbook/ethereumbook/blob/develop/07smart-contracts-solidity.asciidoc#contract-definition) 
+> (public, external, internal & private)?
+---
+export default WhiteSplit
+
+# Comparison to Solidity
+<div />
+
+## Function and Variable Ordering
+<div> 
+
+- Single file
+- In a specific order
+
+Allows for more readability and auditability.
+Follows Python ordering requirements.
+
+</div>
+
+<div />
+
+> Is this order just based on logic from the developer, or does it follow a specific patern built-in to Python?
+
+---
+export default WhiteSplit
+
+# Additionnal interesting feature
+<div />
+
+### Own code and editor compiler
+
+Compile your smart contracts into bytecode, ABI, and LLL using only your web browse
+
+### Buit-in overflow protection
+
+<div>
+
+In Solidity, devs aren’t forced to use safety tools. Vyper has built-in overflow protection.
+
+> […] Vyper uses clamps whenever a literal constant is loaded, a value is passed to a function, or a variable is assigned. Clamps are implemented via custom functions in the Low-level Lisp-like Language (LLL) compiler, and cannot be disabled. (The Vyper compiler outputs LLL rather than EVM bytecode; this simplifies the development of Vyper itself.) […]
+
+</div>
+
+---
+export default WhiteSlate
+
+# Conclusion
+You know nothing, Jon Snow
+
+---
+export default WhiteSplit
+
+# Give me some knowledge
+<div />
+
+<div>
+
+Seams to me that when dealing with hi-risk assets such as cryptocurrencies, this type of language should be standard. However it is not.
+
+- Why is this the case?
+- What would you rather be using?
+- After reading those two chapters, has your preference changed?
+- Would the level of security given by Vyper make you switch? 
+- If not for all projects, would there be any special cases when you would definitely use Vyper now (and vice-versa)?
+
+</div>
+---
+# THANK YOU!
