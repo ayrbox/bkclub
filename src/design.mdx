@@ -3,15 +3,17 @@ import { Head, Image, Notes, Appear } from 'mdx-deck'
 import { Invert, Split, FullScreenCode, Horizontal} from 'mdx-deck/layouts'
 import Splash from './splash'
 import SideTitle from './sideTitle'
+import WhiteSlate from './WhiteSlate'
+import Columns from './Columns'
 
 export default Splash
 
-# **Solidity**
+# MASTERING ETHEREUM
 
-**Chapter 7**  
-**MASTERING ETHEREUM**  
+**Chapter 8**  
+Smart Contracts and Vyper
 
-*Jan 2019*
+*23 Jan 2019*
 ---
 export default SideTitle
 
@@ -26,4 +28,48 @@ export default SideTitle
 ### Congruent *adj.* 
 (in [Comparison to Solidity > Variable Typecasting](https://github.com/ethereumbook/ethereumbook/blob/develop/08smart-contracts-vyper.asciidoc#variable-typecasting))   
 - Similar to or in agreement with something, so that the two things can both exist or can be combined without problems.
+---
+export default WhiteSlate
+
+# Why Vyper
+## Or the quest towards more secure code
+
+> **Fun fact**  
+> There are nearly one million   
+> deployed Ethereum smart contracts.   
+> That’s approximately one for seven blocks.  
+---
+export default Columns
+
+### Vulnerabilities in Smart Contracts  
+“One of the principles of Vyper is to make it virtually impossible for developers to write misleading code.”
+
+### Suicidal Contracts  
+<div>
+
+Smart contracts that can be killed by arbitrary addresses.  
+
+E.g. SELFDESTRUCT function can be called by anyone.
+
+</div>
+
+### Greedy Contracts
+
+<div>
+
+Smart contracts that can reach a state in which they cannot release ether.  
+
+E.g. A library is removed, thus making its functions impossible to use.
+
+</div>
+
+
+### Prodigal Contracts
+<div>
+
+Smart contracts that can be made to release ether to arbitrary addresses.  
+
+E.g. Bounty contracts that can be called by anybody and drained of their ether.
+
+</div>
 

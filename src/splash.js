@@ -21,6 +21,10 @@ const bookClubStyle = {
   weight: '900'
 }
 
+const backgroundStyle = {
+  
+}
+
 const Splash = ({ children }) => {
   return (
     <Fragment>
