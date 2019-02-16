@@ -6,14 +6,8 @@ const headerStyle = {
   height: '80px',
   padding: '15px 6.25vw',
   position: 'absolute',
-  bottom:0,
-  left: 0,
-  right: 0,
-  background: '#fff',
-  boxShadow: 'rgba(22, 22, 86, 0.15) 0px 0px 20px 0px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  verticalAlign: 'top'
+  bottom: '0.8vh',
+  right: '0.4vw',
 }
 
 const bookClubStyle = {
@@ -25,10 +19,7 @@ const Provider = ({ children, ...rest }) => (
   <ThemeProvider {...rest}>
     {children}
     <div style={headerStyle} >
-      <Logo />
-      <div style={bookClubStyle}>
-        #bookclub
-      </div>
+      <Logo textColor={'#fff'} height={30} />
     </div>
   </ThemeProvider>
 )
