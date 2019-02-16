@@ -1,23 +1,11 @@
 import { Head, Image, Notes, Appear } from 'mdx-deck'
+import { Invert, Split, FullScreenCode, Horizontal} from 'mdx-deck/layouts'
 export { default as theme } from './theme.js'
 
-<Image src='https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20' />
----
-Prop | Type | Description
----|---|---
-`width` | number, string, or array | sets element width
-`color` | string | sets foreground color
-`bg` | string | sets background color
----
-
 # Two type of accounts
-
 1. Externally Owned Account
 2. Contract Accounts
-
 ---
-
-
 # Externally Owned Account (EOA)
 
 - External of Ethereum
@@ -25,7 +13,6 @@ Prop | Type | Description
 - Simple and no code associated with it
 - Controlled(?) by transactions created and crypotographycally signed 
 ---
-
 # Contract Account
 
 - Do not have private keys
@@ -33,7 +20,6 @@ Prop | Type | Description
 - Do not have keys (but controlled by predetermined code
 
 ---
-
 # Smart Contract
 
 Coined by Nick Szabo in 1990
@@ -142,14 +128,13 @@ There are few languages for writing smart contract in ethereum. (Solidity, Vyper
 # General Language Type
 
 ---
-
 # Declarative (e.g Haskel, SQL)
 
 Only logic but no flow
 No variables
 Declarative language is easier to know how program will behave (no side effects)
 
---- 
+---
 
 # Imperlative (e.g C++, Java)
 
@@ -162,10 +147,9 @@ Javascript, Python, Lisp
 
 ---
 
-Smart Contract bug cost money :money_mouth_face: :pound:
+# Smart Contract bug cost money :money_mouth_face: :pound:
 
 ---
-
 
 So should not contain any unindented sideeffect.
 
@@ -173,8 +157,7 @@ And declarative paradigm is go to but widely popular langauge is solidity which 
 
 ---
 
-
-### LLL 
+# LLL 
 
 - Declarative
 - Lisp-**likewithout iterative flows (loops)**
@@ -182,7 +165,7 @@ And declarative paradigm is go to but widely popular langauge is solidity which 
 ---
 
 
-### Serpant
+# Serpant
 
 - Imperlative
 - Python like
@@ -190,7 +173,7 @@ And declarative paradigm is go to but widely popular langauge is solidity which 
 ---
 
 
-### Solidity
+# Solidity
 
 - Imperlative
 - Inspired by Javascript, C++, Java
@@ -199,7 +182,7 @@ And declarative paradigm is go to but widely popular langauge is solidity which 
 ---
 
 
-### Vyper
+# Vyper
 
 - New
 - Python like
@@ -208,7 +191,7 @@ And declarative paradigm is go to but widely popular langauge is solidity which 
 ---
 
 
-### Bamboo
+# Bamboo
 
 - New
 - Erlang like
@@ -228,12 +211,9 @@ Use by other blockchain too.
 
 Now maintained as separte project.
 
-
 ---
 
-
-
-## Solidity Version
+# Solidity Version
 
 Follows semantic versioning. 
 
@@ -241,12 +221,9 @@ Follows semantic versioning.
 
 Current Version: 0.5.2 https://github.com/ethereum/solidity/releases
 
-
 ---
 
-
-
-### Install compiler - solc
+# Install compiler - solc
 
 Example on book Debian based
 
@@ -255,13 +232,11 @@ $ sudo add-apt-repository ppa:ethereum/ethereum
 $ sudo apt update
 $ sudo apt install solc
 ```
-
 ---
 
+# Actually depends on operating system
 
 https://solidity.readthedocs.io/en/v0.4.24/installing-solidity.html
-
-Actually depends on operating system
 
 For mac brew can be used
 
@@ -273,9 +248,6 @@ VSCode, Atom, Emac. Vim
 
 ---
 
-
-
-
 # Ethereum Contract ABI
 
 Stands for Application Binary Interface
@@ -284,15 +256,14 @@ Defines interface between two program.
 
 ---
 
+# Example 
 
-Example mobile app know what to send and what to expect thus encode and decodes data.
-
+Mobile app know what to send and what to expect thus encode and decodes data.
 ABI is JSON array that describes functions and events. Produced by compiler (solo)
 
 Functions : `type`, `name`, `inputs`, `outputs`, `constant`, and `payable`.
 
-Events: type`, `name`, `inputs`, and `anonymous
-
+Events: `type`, `name`, `inputs`, and `anonymous`
 ---
 
 
@@ -308,8 +279,6 @@ Contract JSON ABI
 
 
 ---
-
-
 
 # Compiler and Language
 
@@ -327,175 +296,114 @@ Compiler is able to read the version and produce error, warning and suggestions.
 ---
 
 
-## Data Types
-
-- Boolean (bool)
-
-  Boolean value, true or false, with logical operators ! (not), && (and), || (or), == (equal), and != (not equal).
+# Data Types
 
 ---
+# Boolean (bool)
 
-
-- Integer (int, uint)
-
-  Signed (int) and unsigned (uint) integers, declared in increments of 8 bits from int8 to uint256. Without a size suffix, 256-bit quantities are used, to match the word size of the EVM.
+Boolean value, true or false, with logical operators ! (not), && (and), || (or), == (equal), and != (not equal).
 
 ---
+# Integer (int, uint)
 
-
-- Fixed point (fixed, ufixed)
-
-  Fixed-point numbers, declared with (`u`)`fixed*M*x*N*` where *M* is the size in bits (increments of 8 up to 256) and *N* is the number of decimals after the point (up to 18); e.g., ufixed32x2.
-
+Signed (int) and unsigned (uint) integers, declared in increments of 8 bits from int8 to uint256. Without a size suffix, 256-bit quantities are used, to match the word size of the EVM.
 ---
+# Fixed point (fixed, ufixed)
 
-
-- Address
-
-  A 20-byte Ethereum address. The address object has many helpful member functions, the main ones being balance (returns the account balance) and `transfer` (transfers ether to the account).
-
+Fixed-point numbers, declared with (`u`)`fixed*M*x*N*` where *M* is the size in bits (increments of 8 up to 256) and *N* is the number of decimals after the point (up to 18); e.g., ufixed32x2.
 ---
+# Address
 
-
-- Byte array (fixed)
-
-  Fixed-size arrays of bytes, declared with bytes1 up to bytes32.
-
+A 20-byte Ethereum address. The address object has many helpful member functions, the main ones being balance (returns the account balance) and `transfer` (transfers ether to the account).
 ---
+# Byte array (fixed)
 
-
-- Byte array (dynamic)
-
-  Variable-sized arrays of bytes, declared with bytes or string.
-
-- Enum
-
-  User-defined type for enumerating discrete values: enum NAME {LABEL1, LABEL 2, ...}.
-
-- Arrays
-
+Fixed-size arrays of bytes, declared with bytes1 up to bytes32.
 ---
+# Byte array (dynamic)
 
+Variable-sized arrays of bytes, declared with bytes or string.
+---
+# Enum
 
-  An array of any type, either fixed or dynamic: uint32[][5] is a fixed-size array of five dynamic arrays of unsigned integers.
+User-defined type for enumerating discrete values: enum NAME {LABEL1, LABEL 2, ...}.
+---
+# Arrays
+ An array of any type, either fixed or dynamic: uint32[][5] is a fixed-size array of five dynamic arrays of unsigned integers.
+---
+# Struct
 
-- Struct
+User-defined data containers for grouping variables: `struct NAME {TYPE1 VARIABLE1; TYPE2 VARIABLE2; ...}`.
+---
+# Mapping
 
-  User-defined data containers for grouping variables: `struct NAME {TYPE1 VARIABLE1; TYPE2 VARIABLE2; ...}`.
-
-- Mapping
-
-  Hash lookup tables for *key* => *value* pairs: mapping(KEY_TYPE => VALUE_TYPE) NAME.
-
+Hash lookup tables for *key* => *value* pairs: mapping(KEY_TYPE => VALUE_TYPE) NAME.
+---
 In addition to these data types, Solidity also offers a variety of value literals that can be used to calculate different units:
-
 ---
+# Time units
 
-
-- Time units
-
-  The units seconds, minutes, hours, and days can be used as suffixes, converting to multiples of the base unit seconds.
-
-- Ether units
-
-  The units wei, finney, szabo, and ether can be used as suffixes, converting to multiples of the base unit wei.
-
+The units seconds, minutes, hours, and days can be used as suffixes, converting to multiples of the base unit seconds.
 ---
+# Ether units
+The units wei, finney, szabo, and ether can be used as suffixes, converting to multiples of the base unit wei.
+---
+# Global Variables and Functions
 
-
-## Global Variables and Functions
-
-### Transaction/Message Context
-
+Transaction/Message Context
 - msg.sender
 - msg.value
 - msg.gas - This was deprecated in Solidity v0.4.21
 - msg.data
 - msg.sig
-
 ---
-
-
-### Transaction Context
-
+# Transaction Context
 - tx.gasprice
 - tx.origin
-
 ---
-
-
-### Block Context
-
+# Block Context
 - block.blockhash(__blockNumber__)
 - block.coinbase
 - block.difficulty
 - block.gaslimit
 - block.number
 - block.timestamp
-
 ---
-
-
-### Address Object
-
+# Address Object
 - address.balance
 - address.transfer(__amount__)
 - address.send(__amount__)
 - address.call(__payload__)
 - address.callcode(__payload__)
 - address.delegatecall()
-
 ---
-
-
-### Built-in functions
-
+# Built-in functions
 - addmod, mulmod - For example, addmod(x,y,k) calculates (x + y) % k.
 - keccak256, sha256, sha3, ripemd160
 - ecrecover
 - selfdestrunct(__recipient_address__)
 - this
-
 ---
-
-
-### Contract Definition
-
+# Contract Definition
 - interface
 - library
-
 ---
-
-
-### Functions
-
+# Functions
 - FunctionName
 - *parameters*
-
-Visibility (invokability)
-
 ---
-
-
+# Visibility (invokability)
 - public
 - external
 - internal
 - private
-
 ---
-
-
-Behaviour
-
+# Behaviour
 - constant or view
 - pure
 - payable
-
 ---
-
-
-## Contract - Contructor and Destructor
-
+# Contract - Contructor and Destructor
 ```js
 pragma solidity ^0.4.22;
 
@@ -517,12 +425,8 @@ contract Faucet {
     }
 }
 ```
-
 ---
-
-
-## Contract Inheritance
-
+# Contract Inheritance
 ```javascript
 contract Dog is Animal {
   ...
@@ -533,12 +437,8 @@ contract Lion is Animal, Cat {
   ...
 }
 ```
-
 ---
-
-
 Example:
-
 ```javascript
 contract owned {
 	address owner;
@@ -560,9 +460,6 @@ contract mortal is owned {
 	}
 }
 
----
-
-
 contract Faucet is mortal {
     // Give out ether to anyone who asks
     function withdraw(uint withdraw_amount) public {
@@ -575,17 +472,10 @@ contract Faucet is mortal {
     function () public payable {}
 }
 ```
-
 ---
-
-
-## Error Handling
-
+# Error Handling
 ---
-
-
-#### assert, require, revert
-
+# assert, require, revert
 - throw is deprecated
 - All state are reverted when error occurs
 
@@ -598,20 +488,12 @@ require(this.balance >= withdraw_amount,
 	"Insufficient balance in faucet for withdrawal request");
 msg.sender.transfer(withdraw_amount);
 ```
-
 ---
-
-
-## Events
-
+# Events
 - *Transaction receipt* is generated for all.
-
 - Logs entries to defined events
-
 - Web3.js library provide data structure to contains transactions logs
-
 ---
-
 
 ```js
 contract Faucet is mortal {
@@ -630,19 +512,10 @@ contract Faucet is mortal {
     }
 }
 ```
-
-
 ---
-
-
-
-## Truffle
-
+# Truffle
 It is set of tool to develop dapp application. https://www.truffleframework.com/
-
 ---
-
-
 ```bash
 $ truffle develop
 truffle(develop)> compile
@@ -674,12 +547,8 @@ truffle(develop)> FaucetDeployed.withdraw(web3.toWei(0.1, "ether")).then(res => 
 Withdrawal { to: '0x627306090abab3a6e1400e9345bc60c78a8bef57',
   amount: BigNumber { s: 1, e: 17, c: [ 1000 ] } }
 ```
-
 ---
-
-
-## Calling other Contracts
-
+# Calling other Contracts
 ```js
 // Creating a new instance
 import "Faucet.sol";
@@ -706,15 +575,13 @@ contract Token is mortal {
 	}
 }
 
----
-
-
 // Raw call, delegatecall without error handling
 contract Token is mortal {
 	constructor(address _faucet) {
 		_faucet.call("withdraw", 0.1 ether);
 	}
 }
+
 // with error handle
 contract Token is mortal {
 	constructor(address _faucet) {
@@ -724,34 +591,15 @@ contract Token is mortal {
 	}
 }
 ```
-
 ---
-
-
-
-
-
-
 # Gas Considerations
-
 ---
-
-
-#### Avoid Dynamically Sized Arrays
-
+# Avoid Dynamically Sized Arrays
 ---
-
-
-#### Avoid Calls to Other Contracts
-
+# Avoid Calls to Other Contracts
 ---
-
-
-#### Estimating Gas Cost
-
+# Estimating Gas Cost
 ---
-
-
 ```js
 var contract = web3.eth.contract(abi).at(address);
 // unit of gas required to call function
@@ -762,12 +610,7 @@ var gasPrice = web3.eth.getGasPrice();
 // total ether cost
 var gasCostInEther = web3.fromWei((gasEstimate * gasPrice), 'ether');
 ```
-
-
-
 ---
-
-
 # Questions
-
 ---
+# Thank you
