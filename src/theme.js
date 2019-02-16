@@ -7,7 +7,7 @@ export default {
   colors: {
     text: '#fff',
     background: '#007bff',
-    link: '#0ff',
+    link: '#007bff',
   },
   css: {
     fontSize: '20px',

@@ -19,7 +19,7 @@ const Provider = ({ children, ...rest }) => (
   <ThemeProvider {...rest}>
     {children}
     <div style={headerStyle} >
-      <Logo textColor={'#fff'} height={30} />
+      <Logo textColor={'#888'} height={30} />
     </div>
   </ThemeProvider>
 )

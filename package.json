@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "mdx-deck ./src/design.mdx",
     "start:solidity": "mdx-deck ./src/solidity.mdx",
     "start:security": "mdx-deck ./src/securityII.mdx",
     "test": "echo \"Error: no test specified\" && exit 1"
