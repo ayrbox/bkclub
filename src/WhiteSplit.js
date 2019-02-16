@@ -85,7 +85,7 @@ const Columns = ({ children }) => {
               {column.description}
             </Desc>
           </Column>
-        ))};
+        ))}
       </Content>
     </Main>
   )
