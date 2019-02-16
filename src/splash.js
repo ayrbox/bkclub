@@ -26,7 +26,7 @@ const Splash = ({ children }) => {
     <Fragment>
       {children}
       <div style={headerStyle} >
-        <Logo />
+        <Logo height={80} />
         <div style={bookClubStyle}>
           #bookclub
         </div>
