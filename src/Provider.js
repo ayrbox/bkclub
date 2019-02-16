@@ -6,7 +6,7 @@ const headerStyle = {
   height: '80px',
   padding: '15px 6.25vw',
   position: 'absolute',
-  top:0,
+  bottom:0,
   left: 0,
   right: 0,
   background: '#fff',
@@ -16,10 +16,6 @@ const headerStyle = {
   verticalAlign: 'top'
 }
 
-const containerStyle = {
-  marginTop: '80px'
-}
-
 const bookClubStyle = {
   fontSize: '28px',
   weight: '900'
@@ -27,16 +23,13 @@ const bookClubStyle = {
 
 const Provider = ({ children, ...rest }) => (
   <ThemeProvider {...rest}>
-    <div style={containerStyle}>
-      {children}
-    </div>
+    {children}
     <div style={headerStyle} >
       <Logo />
       <div style={bookClubStyle}>
         #bookclub
       </div>
     </div>
-
   </ThemeProvider>
 )
 
